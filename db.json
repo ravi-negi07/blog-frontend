@@ -1,0 +1,228 @@
+{
+  "users": [
+    {
+      "_id": "1",
+      "username": "john_doe",
+      "email": "john@example.com",
+      "password": "hashedpassword123",
+      "role": "author",
+      "createdAt": "2024-01-01T12:00:00Z",
+      "updatedAt": "2024-01-01T12:00:00Z",
+      "id": "b3d4"
+    },
+    {
+      "_id": "2",
+      "username": "jane_smith",
+      "email": "jane@example.com",
+      "password": "hashedpassword456",
+      "role": "reader",
+      "createdAt": "2024-01-01T12:00:00Z",
+      "updatedAt": "2024-01-01T12:00:00Z",
+      "id": "6c76"
+    },
+    {
+      "id": "4be9",
+      "username": "dddfff",
+      "email": "ffffjbkb@gmail.com",
+      "password": "bdodjojdpH345"
+    },
+    {
+      "id": "64fe",
+      "email": "ravu@gmail.com",
+      "password": "ravu@gmail.com12"
+    },
+    {
+      "id": "6dd6",
+      "email": "ravu@gmail.com",
+      "password": "ravu@gmail.com12"
+    },
+    {
+      "id": "dbbe",
+      "email": "ravu@gmail.com",
+      "password": "ravu@gmail.com79"
+    }
+  ],
+  "blogs": [
+    {
+      "_id": "101",
+      "title": "First Blog Post",
+      "content": "This is the content of the first blog post.",
+      "authorId": "1",
+      "status": "approved",
+      "createdAt": "2024-01-02T12:00:00Z",
+      "updatedAt": "2024-01-02T12:00:00Z",
+      "id": "a66a"
+    },
+    {
+      "_id": "102",
+      "title": "Second Blog Post",
+      "content": "This is the content of the second blog post.",
+      "authorId": "1",
+      "status": "pending",
+      "createdAt": "2024-01-03T12:00:00Z",
+      "updatedAt": "2024-01-03T12:00:00Z",
+      "id": "aa4a"
+    }
+  ],
+  "comments": [
+    {
+      "_id": "201",
+      "blogId": "101",
+      "userId": "2",
+      "content": "Great post! Very insightful.",
+      "createdAt": "2024-01-02T14:00:00Z",
+      "id": "7f14"
+    }
+  ],
+  "endpoints": {
+    "user": {
+      "POST /signup": {
+        "description": "Register a new user (reader or author).",
+        "input": {
+          "username": "string",
+          "email": "string",
+          "password": "string"
+        },
+        "output": {
+          "success": "boolean",
+          "message": "string"
+        }
+      },
+      "POST /login": {
+        "description": "Login and generate an auth token.",
+        "input": {
+          "email": "string",
+          "password": "string"
+        },
+        "output": {
+          "authToken": "string",
+          "message": "string"
+        }
+      },
+      "POST /logout": {
+        "description": "Logout the current user and invalidate the auth token.",
+        "headers": {
+          "Authorization": "Bearer token"
+        },
+        "output": {
+          "success": "boolean",
+          "message": "User logged out successfully"
+        }
+      },
+      "GET /profile": {
+        "description": "Fetch the profile of a logged-in user.",
+        "headers": {
+          "Authorization": "Bearer token"
+        },
+        "output": {
+          "_id": "string",
+          "username": "string",
+          "email": "string",
+          "role": "string"
+        }
+      }
+    },
+    "blog": {
+      "POST /blogs": {
+        "description": "Submit a new blog post (author only).",
+        "input": {
+          "title": "string",
+          "content": "string"
+        },
+        "headers": {
+          "Authorization": "Bearer token"
+        },
+        "output": {
+          "success": "boolean",
+          "message": "string"
+        }
+      },
+      "GET /blogs": {
+        "description": "Get list of blogs (filtered by status).",
+        "query": {
+          "status": "approved | pending | rejected (optional)"
+        },
+        "output": [
+          {
+            "_id": "string",
+            "title": "string",
+            "content": "string",
+            "authorId": "string",
+            "status": "string"
+          }
+        ]
+      },
+      "GET /blogs/:id": {
+        "description": "Get a specific blog by its ID.",
+        "params": {
+          "id": "string"
+        },
+        "output": {
+          "_id": "string",
+          "title": "string",
+          "content": "string",
+          "authorId": "string",
+          "status": "string"
+        }
+      },
+      "PUT /blogs/:id/approve": {
+        "description": "Approve a blog (admin only).",
+        "params": {
+          "id": "string"
+        },
+        "headers": {
+          "Authorization": "Bearer adminToken"
+        },
+        "output": {
+          "success": "boolean",
+          "message": "Blog approved"
+        }
+      },
+      "PUT /blogs/:id/reject": {
+        "description": "Reject a blog (admin only).",
+        "params": {
+          "id": "string"
+        },
+        "headers": {
+          "Authorization": "Bearer adminToken"
+        },
+        "output": {
+          "success": "boolean",
+          "message": "Blog rejected"
+        }
+      }
+    },
+    "comments": {
+      "POST /blogs/:id/comments": {
+        "description": "Add a comment to a specific blog.",
+        "params": {
+          "id": "string"
+        },
+        "input": {
+          "content": "string"
+        },
+        "headers": {
+          "Authorization": "Bearer token"
+        },
+        "output": {
+          "success": "boolean",
+          "message": "Comment added"
+        }
+      },
+      "GET /blogs/:id/comments": {
+        "description": "Get comments for a specific blog.",
+        "params": {
+          "id": "string"
+        },
+        "output": [
+          {
+            "_id": "string",
+            "userId": "string",
+            "content": "string",
+            "createdAt": "string"
+          }
+        ]
+      }
+    }
+  }
+}
