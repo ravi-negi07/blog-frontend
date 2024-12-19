@@ -7,6 +7,7 @@ import Home from "./Pages/Home";
 import SignUp from "./features/auth/SignUp";
 import Dashboard from "./Pages/Dashboard";
 import AdminDashboard from "./features/admin/AdminDashboard";
+import ProtectedRoutes from "./components/ProtectedRoutes.tsx/ProtectedRoutes";
 import { ToastContainer } from "react-toastify";
 import ReaderDashboard from "./features/reader/ReaderDashboard";
 const App = () => {
@@ -15,7 +16,11 @@ const App = () => {
       <Header />
       <Routes>
         <Route path="/" element={<Home />} />
-        <Route path="/blogs" element={<Dashboard />} />
+
+        <Route element={<ProtectedRoutes />}>
+          <Route path="/blogs" element={<Dashboard />} />
+        </Route>
+
         <Route path="/login" element={<Login />} />
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/dashboard/admin" element={<AdminDashboard />} />

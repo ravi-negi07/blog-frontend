@@ -1,5 +1,5 @@
-// import React, { useEffect, useState } from "react";
-// import { useNavigate } from "react-router-dom";
+import React, { useEffect, useState } from "react";
+import { useNavigate } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import {
   Select,
@@ -14,52 +14,56 @@ import {
 const Dashboard = () => {
   const { user, isAuthenticated } = useAuth0();
   console.log("user", user);
-  console.log("isAuthenticted", isAuthenticated);
+  console.log("isAuthenticated", isAuthenticated);
 
-  //   const [role, setRole] = useState(
-  //     () => localStorage.getItem("userRole") || ""
-  //   );
-  //   const navigate = useNavigate();
+  const navigate = useNavigate();
 
-  // const handleRoleSelection = (selectedRole: string) => {
-  //   const validRoles = ["author", "reader", "admin"];
-  //   if (!validRoles.includes(selectedRole)) {
-  //     alert("Invalid role selected.");
-  //     return;
-  //   }
-  //   setRole(selectedRole);
-  //   localStorage.setItem("userRole", selectedRole);
-  //   navigate(`/dashboard/${selectedRole}`);
-  // };
+  const [role, setRole] = useState(
+    () => localStorage.getItem("userRole") || ""
+  );
 
-  // const handleClick = () => {
-  //   if (!role) {
-  //     navigate("/login");
-  //   } else {
-  //     navigate(`/dashboard/${role}`);
-  //   }
-  // };
+  useEffect(() => {
+    if (!isAuthenticated) {
+      navigate("/login");
+    }
+  }, [navigate, isAuthenticated]);
 
-  // useEffect(() => {
-  //   if (!role) {
-  //     navigate("/login");
-  //   } else {
-  //     navigate(`/dashboard/${role}`);
-  //   }
-  // }, [role, navigate]);
+  const handleRoleSelection = (selectedRole: string) => {
+    const validRoles = ["author", "reader", "admin"];
+    if (!validRoles.includes(selectedRole)) {
+      alert("Invalid role selected.");
+      return;
+    }
+    setRole(selectedRole);
+    localStorage.setItem("userRole", selectedRole);
+    navigate(`/dashboard/${selectedRole}`);
+  };
 
   return (
     <div className="flex flex-col items-center justify-center min-h-screen bg-gray-100">
-      <Select>
+      <div>
+        <h1>Hello {user?.nickname}</h1>
+        <p>
+          Lorem ipsum dolor sit, amet consectetur adipisicing elit. Ipsa quo
+          iure culpa impedit quam a, rem optio doloribus suscipit delectus at
+          praesentium neque saepe totam enim perspiciatis excepturi. Labore,
+          expedita? Perferendis totam amet sequi recusandae sunt mollitia,
+          blanditiis omnis id ad? Iusto laboriosam temporibus consequatur vel
+          recusandae, numquam ex unde ipsa rerum illo culpa minus beatae placeat
+          ducimus voluptates itaque.<span>kindly select the role as below</span>
+        </p>
+      </div>
+
+      <Select onValueChange={handleRoleSelection} defaultValue={role}>
         <SelectTrigger className="w-[180px]">
-          <SelectValue placeholder="Enter a Role here" />
+          <SelectValue placeholder="Select a Role" />
         </SelectTrigger>
         <SelectContent>
           <SelectGroup>
             <SelectLabel>Role</SelectLabel>
-            <SelectItem value="apple">Auther</SelectItem>
-            <SelectItem value="banana">Admin</SelectItem>
-            <SelectItem value="blueberry">Reader</SelectItem>
+            <SelectItem value="author">Author</SelectItem>
+            <SelectItem value="admin">Admin</SelectItem>
+            <SelectItem value="reader">Reader</SelectItem>
           </SelectGroup>
         </SelectContent>
       </Select>
