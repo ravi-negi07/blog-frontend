@@ -1,8 +1,13 @@
 import { createApi, fetchBaseQuery } from "@reduxjs/toolkit/query/react";
 
 interface Blog {
-  id: string;
+  source: { id: string; name: string };
+  author: string;
   title: string;
+  description: string;
+  url: string;
+  urlToImage: string;
+  publishedAt: string;
   content: string;
 }
 
@@ -15,17 +20,21 @@ interface UpdateBlog extends Partial<NewBlog> {
   id: string;
 }
 
+const API_KEY = "8c622754758f462991f1a012eeb75db2";
+const NEWS_API_URL = "https://newsapi.org/v2/";
+
 const blogApi = createApi({
   reducerPath: "blogApi",
   baseQuery: fetchBaseQuery({
-    baseUrl: "http://localhost:3000",
+    baseUrl: NEWS_API_URL,
   }),
   endpoints: (builder) => ({
     fetchBlogs: builder.query<Blog[], void>({
-      query: () => "/blogs",
+      query: () =>
+        `everything?q=apple&from=2024-12-19&to=2024-12-19&sortBy=popularity&apiKey=${API_KEY}`,
     }),
     fetchBlogById: builder.query<Blog, string>({
-      query: (id) => `/blogs/${id}`,
+      query: (id) => `everything?q=${id}&apiKey=${API_KEY}`,
     }),
     createBlog: builder.mutation<Blog, NewBlog>({
       query: (newBlog) => ({

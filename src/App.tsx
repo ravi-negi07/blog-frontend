@@ -1,33 +1,29 @@
+import React, { Suspense } from "react";
+import { BrowserRouter, Routes, Route } from "react-router-dom";
+import { routes } from "././routes/Routes";
 import Header from "./components/layout/Header";
-import Login from "./features/auth/Login";
-import "react-toastify/dist/ReactToastify.css";
 
-import { BrowserRouter as Router, Routes, Route } from "react-router-dom";
-import Home from "./Pages/Home";
-import SignUp from "./features/auth/SignUp";
-import Dashboard from "./Pages/Dashboard";
-import AdminDashboard from "./features/admin/AdminDashboard";
-import ProtectedRoutes from "./components/ProtectedRoutes.tsx/ProtectedRoutes";
-import { ToastContainer } from "react-toastify";
-import ReaderDashboard from "./features/reader/ReaderDashboard";
-const App = () => {
+const App: React.FC = () => {
+  const renderRoutes = (routes) =>
+    routes.map(({ path, component: Component, children }) => (
+      <Route
+        key={path}
+        path={path}
+        element={
+          <Suspense fallback={<div>Loading...</div>}>
+            <Component />
+          </Suspense>
+        }
+      >
+        {children && renderRoutes(children)}{" "}
+      </Route>
+    ));
+
   return (
-    <Router>
+    <BrowserRouter>
       <Header />
-      <Routes>
-        <Route path="/" element={<Home />} />
-
-        <Route element={<ProtectedRoutes />}>
-          <Route path="/blogs" element={<Dashboard />} />
-        </Route>
-
-        <Route path="/login" element={<Login />} />
-        <Route path="/sign-up" element={<SignUp />} />
-        <Route path="/dashboard/admin" element={<AdminDashboard />} />
-        <Route path="/dashboard/reader" element={<ReaderDashboard />} />
-      </Routes>
-      <ToastContainer position="top-right" autoClose={2000} />
-    </Router>
+      <Routes>{renderRoutes(routes)}</Routes>
+    </BrowserRouter>
   );
 };
 

@@ -12,8 +12,8 @@ interface SignUpFormData {
 }
 
 const SignUp = () => {
-  const { loginWithRedirect, isAuthenticated } = useAuth0();
-  const { postData, loading, error, data } = useAxios();
+  const { isAuthenticated } = useAuth0();
+  const { postData } = useAxios();
 
   const {
     register,
@@ -29,7 +29,7 @@ const SignUp = () => {
 
   const onSubmitSignup = async (data: SignUpFormData) => {
     try {
-      const res = await postData("http://localhost:3000/sign", data);
+      postData("http://localhost:3000/sign", data);
       // console.log(res);
       if (data) {
         toast.success("you have successfully signed up", {
@@ -173,18 +173,6 @@ const SignUp = () => {
               <Link to="/login">Sign in</Link>
             </span>
           </p>
-
-          <p className="text-center text-sm text-gray-700 mt-2">
-            Access Quickly
-          </p>
-
-          <button
-            type="button"
-            className="bg-white w-full border-2 border-blue-500 text-blue-500 px-4 py-2 rounded-md hover:bg-blue-100 transition duration-300"
-            onClick={() => loginWithRedirect()}
-          >
-            Sign Up with Google
-          </button>
         </form>
       </div>
 

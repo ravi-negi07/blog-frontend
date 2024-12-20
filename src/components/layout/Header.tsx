@@ -21,7 +21,7 @@ const Header: React.FC = () => {
 
   const menuItems = [
     { id: nanoid(), title: "Home", route: "/" },
-    { id: nanoid(), title: "Blogs", route: "/blogs" },
+    { id: nanoid(), title: "Blogs", route: "/dashboard" },
     { id: nanoid(), title: "Authors", route: "/dashboard/authors" },
     { id: nanoid(), title: "Admin", route: "/dashboard/admin" },
   ];

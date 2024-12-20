@@ -2,7 +2,7 @@ import { useForm } from "react-hook-form";
 import { Link } from "react-router-dom";
 import { useAuth0 } from "@auth0/auth0-react";
 import axios from "axios";
-import { useState } from "react";
+
 import { toast } from "react-toastify";
 import { useNavigate } from "react-router-dom";
 interface FormValues {
@@ -14,7 +14,7 @@ interface FormValues {
 const userKey: string = "user";
 
 const Login = () => {
-  const { isAuthenticated, setIsAuthenticated } = useState<boolean>(false);
+  //   const { isAuthenticated, setIsAuthenticated } = useState<boolean>(false);
   const navigate = useNavigate();
   const { loginWithRedirect } = useAuth0();
 
@@ -51,7 +51,6 @@ const Login = () => {
         });
         console.log("User logged in successfully:", res.data);
         localStorage.setItem("user", JSON.stringify(res.data));
-        setIsAuthenticated(true);
 
         const storedUser = JSON.parse(localStorage.getItem(userKey) || "null");
         if (
@@ -167,7 +166,7 @@ const Login = () => {
           className="bg-white w-full border-2 border-blue-500 text-blue-500 px-4 py-2 rounded-md hover:bg-blue-100 transition duration-300"
           onClick={() => loginWithRedirect()}
         >
-          Sign Up with Google
+          Sign In with Google
         </button>
       </form>
     </div>

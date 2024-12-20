@@ -9,7 +9,6 @@ const AdminDashboard: React.FC = () => {
       <div>
         <h2>Pending Blogs</h2>
         <ul>
-          s
           <li>
             <div>
               <h3>Blog Title 1</h3>
