@@ -8,17 +8,15 @@ import store from "./Redux/store.tsx";
 import { Provider } from "react-redux";
 
 createRoot(document.getElementById("root")!).render(
-  <StrictMode>
-    <Auth0Provider
-      domain="dev-izbze3jzutnbosaz.us.auth0.com"
-      clientId="Zl8uopiOqJyHvFnVHHmNnnHag8P74lmN"
-      authorizationParams={{
-        redirect_uri: window.location.origin,
-      }}
-    >
-      <Provider store={store}>
-        <App />
-      </Provider>
-    </Auth0Provider>
-  </StrictMode>
+  <Auth0Provider
+    domain="dev-izbze3jzutnbosaz.us.auth0.com"
+    clientId="Zl8uopiOqJyHvFnVHHmNnnHag8P74lmN"
+    authorizationParams={{
+      redirect_uri: window.location.origin,
+    }}
+  >
+    <Provider store={store}>
+      <App />
+    </Provider>
+  </Auth0Provider>
 );

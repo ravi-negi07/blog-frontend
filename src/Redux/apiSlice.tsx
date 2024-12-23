@@ -19,7 +19,6 @@ interface NewBlog {
 interface UpdateBlog extends Partial<NewBlog> {
   id: string;
 }
-
 const API_KEY = "8c622754758f462991f1a012eeb75db2";
 const NEWS_API_URL = "https://newsapi.org/v2/";
 

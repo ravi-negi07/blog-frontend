@@ -9,4 +9,8 @@ export default defineConfig({
       "@": path.resolve(__dirname, "./src"),
     },
   },
+  server: {
+    // Enable HMR for better development experience
+    hmr: true,
+  },
 });

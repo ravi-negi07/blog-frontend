@@ -12,21 +12,19 @@ import {
 } from "@/components/ui/sidebar";
 import { useAuth0 } from "@auth0/auth0-react";
 import { useNavigate } from "react-router-dom";
-import { useFetchBlogsQuery, useDeleteBlogMutation } from "@/Redux/apiSlice";
+import {
+  useFetchBlogsQuery,
+  useDeleteBlogMutation,
+} from "../../Redux/apiSlice";
 
 const AuthorDashboard: React.FC = () => {
   const { user } = useAuth0();
   const navigate = useNavigate();
-
   const { data: blogs, isLoading, error } = useFetchBlogsQuery();
-
   const [deleteBlog] = useDeleteBlogMutation();
 
-  const handleDelete = (postId: string) => {
-    if (window.confirm("Are you sure you want to delete this post?")) {
-      deleteBlog(postId);
-      alert(`Post ${postId} deleted!`);
-    }
+  const handleDelete = (id: string) => {
+    deleteBlog(id);
   };
 
   return (

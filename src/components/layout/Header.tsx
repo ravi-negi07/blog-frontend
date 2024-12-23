@@ -14,16 +14,16 @@ import { Input } from "@/components/ui/input";
 import { useAuth0, LogoutOptions } from "@auth0/auth0-react";
 import { nanoid } from "nanoid";
 import { Link } from "react-router-dom";
+import { Avatar, AvatarImage } from "@/components/ui/avatar";
 
 const Header: React.FC = () => {
-  const { loginWithRedirect, logout, isAuthenticated, user } = useAuth0();
-  console.log(user);
+  const { logout, isAuthenticated, user } = useAuth0();
+  console.log(user?.picture);
 
   const menuItems = [
     { id: nanoid(), title: "Home", route: "/" },
+    { id: nanoid(), title: "About", route: "/about" },
     { id: nanoid(), title: "Blogs", route: "/dashboard" },
-    { id: nanoid(), title: "Authors", route: "/dashboard/authors" },
-    { id: nanoid(), title: "Admin", route: "/dashboard/admin" },
   ];
 
   const handleLogout = (): void => {
@@ -32,10 +32,16 @@ const Header: React.FC = () => {
   };
 
   return (
-    <Card className="bg-card py-3 px-4 border-0 flex fixed top-0 items-center justify-between w-full shadow-md z-50">
+    <Card className="bg-card py-3 px-4 border-0 flex fixed top-0 items-center px-10 justify-between w-full shadow-md z-50">
       <div className="flex items-center">
-        <Link to="/blogs" className="text-2xl font-bold text-blue-500">
-          Blog
+        <Link
+          to="/"
+          className="self-center whitespace-nowrap text-sm sm:text-xl font-semibold dark:text-white"
+        >
+          <span className="px-2 py-1 bg-gradient-to-r from-indigo-500 via-purple-500 to-blue-500 rounded-lg text-white">
+            News
+          </span>
+          Blogs
         </Link>
       </div>
 
@@ -106,15 +112,23 @@ const Header: React.FC = () => {
           <Link to="/login">
             <Button
               variant="secondary"
-              className="hidden md:block text-blue-500  hover:bg-blue-500 hover:text-white"
-              // onClick={() => loginWithRedirect()}
+              className="p-2 rounded-lg border-4 border-purple-300 bg-white text-purple-700 text-md font-semibold shadow-md transition-all duration-300 ease-in-out hover:bg-gradient-to-r hover:from-purple-500 hover:to-blue-500 hover:text-white hover:shadow-lg"
             >
-              Login
+              Sign In
             </Button>
           </Link>
         ) : (
           <div className="hidden md:flex items-center gap-2">
-            <span className="text-sm text-gray-600">Hi, {user?.name}</span>
+            <Link to="/profile">
+              {user?.picture ? (
+                <Avatar>
+                  <AvatarImage src={user?.picture} alt="profile" />
+                </Avatar>
+              ) : (
+                <p>null</p>
+              )}
+            </Link>
+
             <Button
               variant="secondary"
               className="text-red-500"
