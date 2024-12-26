@@ -1,9 +1,10 @@
 import React from "react";
+import { IoMdCreate } from "react-icons/io";
+
 import { FaCircle, FaPowerOff, FaRegCommentAlt } from "react-icons/fa";
 import { IoMdStats } from "react-icons/io";
 import { BsFileEarmarkPostFill } from "react-icons/bs";
 import { IoSettingsOutline } from "react-icons/io5";
-import { useState } from "react";
 import {
   Sidebar as SidebarContainer,
   SidebarContent,
@@ -27,23 +28,25 @@ interface SidebarProps {
 const Sidebar: React.FC<SidebarProps> = ({ role }) => {
   console.log(role);
   const items: SidebarItem[] = [
-    { title: "Dashboard", url: "#", icon: <FaCircle /> },
-    ...(role.role == "admin"
+    { title: "Dashboard", url: "/dashboard", icon: <FaCircle /> },
+    { title: "Create Post", url: "/create-post", icon: <IoMdCreate /> },
+
+    ...(role.role === "admin"
       ? [
-          { title: "Post", url: "#", icon: <BsFileEarmarkPostFill /> },
-          { title: "Comment", url: "#", icon: <FaRegCommentAlt /> },
+          { title: "Post", url: "/post", icon: <BsFileEarmarkPostFill /> },
+          { title: "Comment", url: "/comment", icon: <FaRegCommentAlt /> },
         ]
       : []),
-    { title: "Status", url: "#", icon: <IoMdStats /> },
-    { title: "Settings", url: "#", icon: <IoSettingsOutline /> },
+    { title: "Status", url: "/status", icon: <IoMdStats /> },
+    { title: "Settings", url: "/setting", icon: <IoSettingsOutline /> },
   ];
 
   return (
-    <SidebarContainer className="w-64 h-full border-2 border-slate-700 flex-shrink-0">
-      <SidebarContent className="mt-10">
+    <SidebarContainer className="w-64 h-full border-2 border-slate-700 flex-shrink-0 flex flex-col justify-between">
+      <SidebarContent className="mt-10 flex-grow">
         <SidebarGroup>
           <SidebarGroupLabel>Application</SidebarGroupLabel>
-          <SidebarGroupContent className="relative h-full">
+          <SidebarGroupContent>
             <SidebarMenu>
               {items.map((item) => (
                 <SidebarMenuItem key={item.title}>
@@ -61,16 +64,18 @@ const Sidebar: React.FC<SidebarProps> = ({ role }) => {
                 </SidebarMenuItem>
               ))}
             </SidebarMenu>
-
-            <SidebarMenuButton className="mt-[200px] bottom-0 left-0 px-4 text-red-500 shadow-md py-8 focus:text-red-500 border-2 border-slate-200 flex justify-start">
-              <a href="#" className="flex items-center">
-                <FaPowerOff className="text-lg" />
-                <span className="text-md font-bold ml-2">Logout</span>
-              </a>
-            </SidebarMenuButton>
           </SidebarGroupContent>
         </SidebarGroup>
       </SidebarContent>
+
+      <div className="p-4">
+        <SidebarMenuButton className="px-4 py-8  text-red-500 shadow-md   focus:text-red-500 border-2 border-slate-200 flex items-center justify-start">
+          <a href="#" className="flex items-center">
+            <FaPowerOff className="text-lg" />
+            <span className="text-lg font-bold ml-2 capitalized">Logout</span>
+          </a>
+        </SidebarMenuButton>
+      </div>
     </SidebarContainer>
   );
 };

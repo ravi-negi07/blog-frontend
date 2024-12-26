@@ -5,11 +5,12 @@ import Header from "./components/layout/Header";
 import Login from "./features/auth/Login";
 import SignUp from "./features/auth/SignUp";
 import Dashboard from "./features/blog/Dashboard";
-import BlogEditor from "./features/blog/BlogEditor";
+import BlogEditor from "./features/blog/author/BlogEditor";
 import AdminDashboard from "./features/admin/AdminDashboard";
 import AuthorDashboard from "./features/author/AuthorDashboard";
 import Profile from "./features/auth/Profile";
 import About from "./Pages/About";
+import CreatePost from "./features/blog/author/CreatePost";
 import { SidebarProvider } from "@/components/ui/sidebar";
 const App: React.FC = () => {
   return (
@@ -21,6 +22,7 @@ const App: React.FC = () => {
         <Route path="/sign-up" element={<SignUp />} />
         <Route path="/login" element={<Login />} />
         <Route path="/profile" element={<Profile />} />
+        <Route path="/create-post" element={<CreatePost />} />
 
         <Route
           path="/dashboard"
@@ -30,7 +32,7 @@ const App: React.FC = () => {
             </SidebarProvider>
           }
         />
-        <Route path="/dashbaord/edit/:id" element={<BlogEditor />} />
+        <Route path="/edit/:id" element={<BlogEditor />} />
 
         <Route path="/dashboard/admin" element={<AdminDashboard />} />
         <Route path="/dashboard/author" element={<AuthorDashboard />} />

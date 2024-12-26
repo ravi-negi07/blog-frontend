@@ -1,228 +1,112 @@
-{
-  "users": [
-    {
-      "_id": "1",
-      "username": "john_doe",
-      "email": "john@example.com",
-      "password": "hashedpassword123",
-      "role": "author",
-      "createdAt": "2024-01-01T12:00:00Z",
-      "updatedAt": "2024-01-01T12:00:00Z",
-      "id": "b3d4"
-    },
-    {
-      "_id": "2",
-      "username": "jane_smith",
-      "email": "jane@example.com",
-      "password": "hashedpassword456",
-      "role": "reader",
-      "createdAt": "2024-01-01T12:00:00Z",
-      "updatedAt": "2024-01-01T12:00:00Z",
-      "id": "6c76"
-    },
-    {
-      "id": "4be9",
-      "username": "dddfff",
-      "email": "ffffjbkb@gmail.com",
-      "password": "bdodjojdpH345"
-    },
-    {
-      "id": "64fe",
-      "email": "ravu@gmail.com",
-      "password": "ravu@gmail.com12"
-    },
-    {
-      "id": "6dd6",
-      "email": "ravu@gmail.com",
-      "password": "ravu@gmail.com12"
-    },
-    {
-      "id": "dbbe",
-      "email": "ravu@gmail.com",
-      "password": "ravu@gmail.com79"
-    }
-  ],
-  "blogs": [
-    {
-      "_id": "101",
-      "title": "First Blog Post",
-      "content": "This is the content of the first blog post.",
-      "authorId": "1",
-      "status": "approved",
-      "createdAt": "2024-01-02T12:00:00Z",
-      "updatedAt": "2024-01-02T12:00:00Z",
-      "id": "a66a"
-    },
-    {
-      "_id": "102",
-      "title": "Second Blog Post",
-      "content": "This is the content of the second blog post.",
-      "authorId": "1",
-      "status": "pending",
-      "createdAt": "2024-01-03T12:00:00Z",
-      "updatedAt": "2024-01-03T12:00:00Z",
-      "id": "aa4a"
-    }
-  ],
-  "comments": [
-    {
-      "_id": "201",
-      "blogId": "101",
-      "userId": "2",
-      "content": "Great post! Very insightful.",
-      "createdAt": "2024-01-02T14:00:00Z",
-      "id": "7f14"
-    }
-  ],
-  "endpoints": {
-    "user": {
-      "POST /signup": {
-        "description": "Register a new user (reader or author).",
-        "input": {
-          "username": "string",
-          "email": "string",
-          "password": "string"
-        },
-        "output": {
-          "success": "boolean",
-          "message": "string"
-        }
-      },
-      "POST /login": {
-        "description": "Login and generate an auth token.",
-        "input": {
-          "email": "string",
-          "password": "string"
-        },
-        "output": {
-          "authToken": "string",
-          "message": "string"
-        }
-      },
-      "POST /logout": {
-        "description": "Logout the current user and invalidate the auth token.",
-        "headers": {
-          "Authorization": "Bearer token"
-        },
-        "output": {
-          "success": "boolean",
-          "message": "User logged out successfully"
-        }
-      },
-      "GET /profile": {
-        "description": "Fetch the profile of a logged-in user.",
-        "headers": {
-          "Authorization": "Bearer token"
-        },
-        "output": {
-          "_id": "string",
-          "username": "string",
-          "email": "string",
-          "role": "string"
-        }
-      }
-    },
-    "blog": {
-      "POST /blogs": {
-        "description": "Submit a new blog post (author only).",
-        "input": {
-          "title": "string",
-          "content": "string"
-        },
-        "headers": {
-          "Authorization": "Bearer token"
-        },
-        "output": {
-          "success": "boolean",
-          "message": "string"
-        }
-      },
-      "GET /blogs": {
-        "description": "Get list of blogs (filtered by status).",
-        "query": {
-          "status": "approved | pending | rejected (optional)"
-        },
-        "output": [
-          {
-            "_id": "string",
-            "title": "string",
-            "content": "string",
-            "authorId": "string",
-            "status": "string"
-          }
-        ]
-      },
-      "GET /blogs/:id": {
-        "description": "Get a specific blog by its ID.",
-        "params": {
-          "id": "string"
-        },
-        "output": {
-          "_id": "string",
-          "title": "string",
-          "content": "string",
-          "authorId": "string",
-          "status": "string"
-        }
-      },
-      "PUT /blogs/:id/approve": {
-        "description": "Approve a blog (admin only).",
-        "params": {
-          "id": "string"
-        },
-        "headers": {
-          "Authorization": "Bearer adminToken"
-        },
-        "output": {
-          "success": "boolean",
-          "message": "Blog approved"
-        }
-      },
-      "PUT /blogs/:id/reject": {
-        "description": "Reject a blog (admin only).",
-        "params": {
-          "id": "string"
-        },
-        "headers": {
-          "Authorization": "Bearer adminToken"
-        },
-        "output": {
-          "success": "boolean",
-          "message": "Blog rejected"
-        }
-      }
-    },
-    "comments": {
-      "POST /blogs/:id/comments": {
-        "description": "Add a comment to a specific blog.",
-        "params": {
-          "id": "string"
-        },
-        "input": {
-          "content": "string"
-        },
-        "headers": {
-          "Authorization": "Bearer token"
-        },
-        "output": {
-          "success": "boolean",
-          "message": "Comment added"
-        }
-      },
-      "GET /blogs/:id/comments": {
-        "description": "Get comments for a specific blog.",
-        "params": {
-          "id": "string"
-        },
-        "output": [
-          {
-            "_id": "string",
-            "userId": "string",
-            "content": "string",
-            "createdAt": "string"
-          }
-        ]
-      }
-    }
+[
+  {
+    "id": 1,
+    "author": "Sarah Fielding",
+    "content": "Cyber Monday deals are coming in hot. Take Beats, which is leaning into the sale season with discounts...",
+    "description": "Beats Solo 4 headphones are $100 off on Amazon for Cyber Monday",
+    "publishedAt": "2024-12-02T13:09:28Z",
+    "source": { "id": null, "name": "Yahoo Entertainment" },
+    "title": "Beats Solo 4 headphones are $100 off on Amazon for Cyber Monday",
+    "url": "https://yahoo.com/beats-solo4",
+    "urlToImage": "https://i.imgur.com/CzXTtJV.jpg"
+  },
+  {
+    "id": 2,
+    "author": "Isaac Schultz",
+    "content": "The Perseverance rover has clambered out of the crater...",
+    "description": "The rover trekked nearly 2,000 feet to explore a 4-billion-year-old environment.",
+    "publishedAt": "2024-12-13T17:30:24Z",
+    "source": { "id": null, "name": "Gizmodo" },
+    "title": "Perseverance Rover Escapes Its Giant Martian Crater",
+    "url": "https://gizmodo.com/perseverance-rover",
+    "urlToImage": "https://i.imgur.com/uF6X3gQ.jpg"
+  },
+  {
+    "id": 3,
+    "author": "John Doe",
+    "content": "Learn about the latest advancements in GPT technology...",
+    "description": "AI is changing the way we live, and GPT models are leading the charge.",
+    "publishedAt": "2024-12-10T10:00:00Z",
+    "source": { "id": null, "name": "TechRadar" },
+    "title": "The Future of AI: Insights on GPT Technology",
+    "url": "https://techradar.com/future-ai",
+    "urlToImage": "https://i.imgur.com/OB0y6MR.jpg"
+  },
+  {
+    "id": 4,
+    "author": "Jane Smith",
+    "content": "Birdwatchers rejoice as a rare species of bird has been spotted...",
+    "description": "An exciting discovery for bird enthusiasts.",
+    "publishedAt": "2024-12-11T09:15:00Z",
+    "source": { "id": null, "name": "Nature Today" },
+    "title": "Rare Bird Species Spotted for the First Time in Decades",
+    "url": "https://naturetoday.com/rare-bird",
+    "urlToImage": "https://i.imgur.com/C4XJcD3.jpg"
+  },
+  {
+    "id": 5,
+    "author": "Alice Brown",
+    "content": "The new iPhone 16 Pro Max has groundbreaking features...",
+    "description": "Apple's latest flagship phone boasts a sleek design and powerful performance.",
+    "publishedAt": "2024-12-12T14:20:00Z",
+    "source": { "id": null, "name": "TechCrunch" },
+    "title": "iPhone 16 Pro Max: Everything You Need to Know",
+    "url": "https://techcrunch.com/iphone16-pro-max",
+    "urlToImage": "https://i.imgur.com/OnwEDW3.jpg"
+  },
+  {
+    "id": 6,
+    "author": "Michael Green",
+    "content": "Discover the top 10 destinations for travel in 2025...",
+    "description": "Plan your dream vacation with these trending locations.",
+    "publishedAt": "2024-12-09T07:30:00Z",
+    "source": { "id": null, "name": "Travel Weekly" },
+    "title": "Top 10 Destinations for 2025",
+    "url": "https://travelweekly.com/top-destinations",
+    "urlToImage": "https://i.imgur.com/EdF7V4a.jpg"
+  },
+  {
+    "id": 7,
+    "author": "Laura Adams",
+    "content": "A major security vulnerability has been found...",
+    "description": "Here's what you need to know about the latest cybersecurity threat.",
+    "publishedAt": "2024-12-08T12:00:00Z",
+    "source": { "id": null, "name": "Cybernews" },
+    "title": "New Security Vulnerability Affects Millions of Devices",
+    "url": "https://cybernews.com/vulnerability",
+    "urlToImage": "https://i.imgur.com/AW8qL7d.jpg"
+  },
+  {
+    "id": 8,
+    "author": "Tom Bailey",
+    "content": "Tesla's new electric truck shatters expectations...",
+    "description": "The latest innovation from Tesla is a game-changer.",
+    "publishedAt": "2024-12-07T15:45:00Z",
+    "source": { "id": null, "name": "Tesla Blog" },
+    "title": "Tesla Unveils Revolutionary New Electric Truck",
+    "url": "https://tesla.com/new-truck",
+    "urlToImage": "https://i.imgur.com/3T2KfX9.jpg"
+  },
+  {
+    "id": 9,
+    "author": "Emma White",
+    "content": "A new study reveals the hidden benefits of coffee...",
+    "description": "Here's why your daily cup of coffee might be healthier than you think.",
+    "publishedAt": "2024-12-06T08:00:00Z",
+    "source": { "id": null, "name": "Healthline" },
+    "title": "The Surprising Health Benefits of Coffee",
+    "url": "https://healthline.com/coffee-benefits",
+    "urlToImage": "https://i.imgur.com/2BkFf5T.jpg"
+  },
+  {
+    "id": 10,
+    "author": "Chris Jordan",
+    "content": "Explore the evolution of electric cars over the past decade...",
+    "description": "Electric vehicles are transforming the automotive industry.",
+    "publishedAt": "2024-12-05T11:30:00Z",
+    "source": { "id": null, "name": "Car and Driver" },
+    "title": "The Rise of Electric Vehicles: A Decade of Innovation",
+    "url": "https://caranddriver.com/electric-vehicles",
+    "urlToImage": "https://i.imgur.com/X2YfG6D.jpg"
   }
-}
+]

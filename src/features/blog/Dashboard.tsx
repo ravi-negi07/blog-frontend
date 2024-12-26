@@ -24,11 +24,11 @@ interface BlogData {
 }
 
 const Dashboard: React.FC = () => {
-  const [role] = useState("reader");
+  const [role] = useState("author");
   const { data } = useFetchBlogsQuery();
+  console.log(data);
   const navigate = useNavigate();
 
-  // Ensure the response data structure is handled correctly
   const blogs: BlogData = data
     ? data
     : { articles: [], status: "", totalResults: 0 };
