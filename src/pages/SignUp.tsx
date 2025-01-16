@@ -19,7 +19,10 @@ const SignUp = () => {
 
   const onSubmitSignup = async (data: SignUpFormData) => {
     try {
-      const res = await axiosInstance.post("auth/signup", data);
+      const res = await axiosInstance.post(
+        "https://blog-backend-2bnw.onrender.com/auth/signup",
+        data
+      );
       console.log(res);
       if (res.status === 201) {
         SuccessToast("Signup successful!");
@@ -44,7 +47,7 @@ const SignUp = () => {
       <div className="w-full flex justify-center lg:justify-center">
         <form
           onSubmit={handleSubmit(onSubmitSignup)}
-          className="space-y-4 px-6 py-8 w-[400px] max-w-full shadow-md rounded-lg bg-neutral-50"
+          className="space-y-4 px-6 py-8 w-[400px] max-w-full shadow-md opacity-80 mt-10 rounded-lg bg-neutral-50"
         >
           <h1 className="text-center text-blue-500 text-3xl font-semibold">
             Sign Up
