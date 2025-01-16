@@ -1,8 +1,11 @@
 import { useForm } from "react-hook-form";
+import { useDispatch } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { SuccessToast, errorToast } from "@/utills/toastifyUtills";
-
+import { Button } from "@/components/ui/button";
+import { Input } from "@/components/ui/input";
 import axiosInstance from "@/axiosConfig/axiosInstance";
+import { login } from "@/api/authSlice";
 
 interface FormValues {
   email: string;
@@ -11,6 +14,7 @@ interface FormValues {
 }
 
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
 
   const {
@@ -38,7 +42,9 @@ const Login = () => {
       if (res.status === 200) {
         SuccessToast("You have successfully logged in");
 
-        localStorage.setItem("user", JSON.stringify(res.data));
+        const data = await res.data;
+        // console.log(data);
+        dispatch(login({ user: data.user, token: data.token }));
         navigate("/dashboard");
       } else {
         errorToast("Invalid login credentials");
@@ -52,7 +58,7 @@ const Login = () => {
   return (
     <div className="w-[100%] h-[100vh]">
       <div className="flex items-center w-[100%] h-[100vh] justify-center gap-8 mt-[20px] bg-neutral-100 text-gray-800">
-        <div className="w-full px-10 opacity-80 mx-10 relative space-x-2 h-full flex justify-start items-center mt-[10px]">
+        <div className="w-full px-10 hidden md:flex opacity-80 mx-10 relative space-x-2 h-full justify-start items-center mt-[10px]">
           <img
             src="https://ecme-react.themenate.net/img/others/auth-side-bg.png"
             alt="Login"
@@ -155,12 +161,12 @@ const Login = () => {
               )}
             </div>
 
-            <button
+            <Button
               type="submit"
               className="bg-blue-500 w-full text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300"
             >
               Login
-            </button>
+            </Button>
 
             <p className="text-center text-sm mt-4">
               Don't have an account?
