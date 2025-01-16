@@ -1,5 +1,4 @@
 import { createSlice, PayloadAction } from "@reduxjs/toolkit";
-
 import { jwtDecode } from "jwt-decode";
 
 interface DecodedToken {
