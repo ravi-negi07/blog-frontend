@@ -1,8 +1,11 @@
+import { RootState } from "@/store";
 import { useForm } from "react-hook-form";
+import { useDispatch, useSelector } from "react-redux";
 import { Link, useNavigate } from "react-router-dom";
 import { SuccessToast, errorToast } from "@/utills/toastifyUtills";
-
+import { Button } from "@/components/ui/button";
 import axiosInstance from "@/axiosConfig/axiosInstance";
+import { login } from "@/api/authSlice";
 
 interface FormValues {
   email: string;
@@ -11,7 +14,11 @@ interface FormValues {
 }
 
 const Login = () => {
+  const dispatch = useDispatch();
   const navigate = useNavigate();
+  const isDarkTheme = useSelector(
+    (state: RootState) => state.theme.theme === "dark"
+  );
 
   const {
     register,
@@ -38,7 +45,8 @@ const Login = () => {
       if (res.status === 200) {
         SuccessToast("You have successfully logged in");
 
-        localStorage.setItem("user", JSON.stringify(res.data));
+        const data = await res.data;
+        dispatch(login({ user: data.user, token: data.token }));
         navigate("/dashboard");
       } else {
         errorToast("Invalid login credentials");
@@ -49,10 +57,28 @@ const Login = () => {
     }
   };
 
+  const containerClass = isDarkTheme
+    ? "bg-slate-800 text-white"
+    : "bg-slate-100 text-gray-800";
+
+  const formClass = isDarkTheme
+    ? "bg-slate-700 text-white"
+    : "bg-slate-100 text-gray-800";
+
+  const inputClass = isDarkTheme
+    ? "bg-slate-700 border-slate-600 text-white"
+    : "bg-slate-200 text-gray-800";
+
+  const buttonClass = isDarkTheme
+    ? "bg-blue-600 hover:bg-blue-800"
+    : "bg-blue-500 hover:bg-blue-700";
+
   return (
-    <div className="w-[100%] h-[100vh]">
-      <div className="flex items-center w-[100%] h-[100vh] justify-center gap-8 mt-[20px] bg-neutral-100 text-gray-800">
-        <div className="w-full px-10 opacity-80 mx-10 relative space-x-2 h-full flex justify-start items-center mt-[10px]">
+    <div className={`w-[100%] h-[100vh] ${containerClass}`}>
+      <div
+        className={`flex items-center w-[100%] h-[100vh] justify-center gap-8 sm:mt-[20px] ${containerClass}`}
+      >
+        <div className="w-full px-10 hidden md:flex opacity-80 mx-10 relative space-x-2 h-full justify-start items-center mt-[10px]">
           <img
             src="https://ecme-react.themenate.net/img/others/auth-side-bg.png"
             alt="Login"
@@ -63,15 +89,19 @@ const Login = () => {
           />
         </div>
 
-        <div className="w-full flex items-center justify-start">
+        <div className="w-full flex  items-center justify-start">
           <form
             onSubmit={handleSubmit(onSubmitLogin)}
-            className="space-y-2 px-6 py-10 w-[400px] max-w-full mt-6 shadow-sm rounded-lg bg-neutral-100 text-gray-800"
+            className={`space-y-2 px-6 mx-6 mt-0 sm:mx-0  py-10 w-[400px] max-w-full sm:mt-6 opacity-100 shadow-md  rounded-lg ${formClass}`}
           >
             <h1 className="text-center text-blue-500 text-3xl font-semibold mb-2">
               Login
             </h1>
-            <p className="text-center text-sm mb-6">
+            <p
+              className={`text-center text-md font-md mb-6 ${
+                isDarkTheme ? "text-white" : "text-slate-800"
+              }`}
+            >
               Hey, enter your details to sign in to your account
             </p>
 
@@ -94,7 +124,7 @@ const Login = () => {
                     message: "Email cannot exceed 50 characters",
                   },
                 })}
-                className="p-3 rounded-md w-full border-2 focus:outline-none focus:border-blue-500 bg-neutral-200 text-gray-800"
+                className={`p-3 rounded-md w-full border-2 focus:outline-none focus:border-blue-500 ${inputClass}`}
               />
               {errors.email && (
                 <p className="text-red-500 text-sm mt-1">
@@ -123,7 +153,7 @@ const Login = () => {
                       "Password must include letters and numbers, and be at least 8 characters long",
                   },
                 })}
-                className="p-3 rounded-md w-full border-2 focus:outline-none mb-4 focus:border-blue-500 bg-neutral-200 text-gray-800"
+                className={`p-3 rounded-md w-full border-2 focus:outline-none mb-4 focus:border-blue-500 ${inputClass}`}
               />
               {errors.password && (
                 <p className="text-red-500 text-sm mt-1">
@@ -141,7 +171,7 @@ const Login = () => {
                 {...register("role", {
                   required: "Role is required",
                 })}
-                className="p-3 rounded-md w-full border-2 focus:outline-none focus:border-blue-500 bg-neutral-200 text-gray-800"
+                className={`p-3 rounded-md w-full border-2 focus:outline-none focus:border-blue-500 ${inputClass}`}
               >
                 <option value="">Select a role</option>
                 <option value="author">Author</option>
@@ -155,12 +185,12 @@ const Login = () => {
               )}
             </div>
 
-            <button
+            <Button
               type="submit"
-              className="bg-blue-500 w-full text-white px-4 py-2 rounded-md hover:bg-blue-700 transition duration-300"
+              className={`${buttonClass} w-full text-white px-4 py-2 rounded-md transition duration-300`}
             >
               Login
-            </button>
+            </Button>
 
             <p className="text-center text-sm mt-4">
               Don't have an account?

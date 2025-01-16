@@ -1,6 +1,12 @@
 import { toast } from "react-toastify";
 import "react-toastify/dist/ReactToastify.css";
 
+const toastStyle = {
+  borderRadius: "5px",
+  padding: "10px",
+  color: "#fff",
+};
+
 export const SuccessToast = (message: string) => {
   toast.success(message, {
     position: "top-right",
@@ -9,40 +15,36 @@ export const SuccessToast = (message: string) => {
     draggable: true,
     closeOnClick: true,
     style: {
+      ...toastStyle,
       backgroundColor: "#4CAF50",
-      color: "#fff",
-      borderRadius: "5px",
-      padding: "10px",
     },
   });
 };
+
 export const errorToast = (message: string) => {
-  toast.success(message, {
+  toast.error(message, {
     position: "top-right",
     autoClose: 2000,
     pauseOnHover: true,
     closeOnClick: true,
     draggable: true,
     style: {
+      ...toastStyle,
       backgroundColor: "#f44336",
-      color: "#fff",
-      borderRadius: "5px",
-      padding: "10px",
     },
   });
 };
+
 export const infoToast = (message: string) => {
-  toast.success(message, {
+  toast.info(message, {
     position: "top-right",
     autoClose: 2000,
     pauseOnHover: true,
     closeOnClick: true,
     draggable: true,
     style: {
+      ...toastStyle,
       backgroundColor: "#2196F3",
-      color: "#fff",
-      borderRadius: "5px",
-      padding: "10px",
     },
   });
 };
