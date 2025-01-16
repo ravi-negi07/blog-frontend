@@ -1,10 +1,17 @@
-import { Button } from "@/components/ui/button";
+import { Suspense } from "react";
+import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
+import { Login, SignUp } from "./utills";
 
 function App() {
   return (
-    <>
-      <Button>HELLO</Button>
-    </>
+    <Router>
+      <Suspense fallback={<div>Loading...</div>}>
+        <Routes>
+          <Route path="/login" element={<Login />} />
+          <Route path="/signup" element={<SignUp />} />
+        </Routes>
+      </Suspense>
+    </Router>
   );
 }
 
