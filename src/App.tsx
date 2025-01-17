@@ -1,18 +1,24 @@
 import { Suspense } from "react";
-import { BrowserRouter as Router, Route, Routes } from "react-router-dom";
-import { Login, SignUp } from "./utills";
-
-function App() {
+import { ToastContainer } from "react-toastify";
+import { Routes, Route } from "react-router-dom";
+import { Login, SignUp, Header } from "../src/utills";
+const App = () => {
   return (
-    <Router>
-      <Suspense fallback={<div>Loading...</div>}>
+    <>
+      <Suspense fallback={<div>....loading</div>}>
+        <Header />
+      </Suspense>
+
+      <Suspense fallback={<div>...Loading</div>}>
         <Routes>
           <Route path="/login" element={<Login />} />
-          <Route path="/signup" element={<SignUp />} />
+          <Route path="/sign-up" element={<SignUp />} />
         </Routes>
       </Suspense>
-    </Router>
+
+      <ToastContainer />
+    </>
   );
-}
+};
 
 export default App;

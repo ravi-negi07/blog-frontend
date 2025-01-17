@@ -55,11 +55,13 @@ const Header: React.FC = () => {
 
   return (
     <Card
-      className={`py-3 border-0 flex fixed top-0 items-center px-10 justify-between w-full shadow-md z-50 ${
-        isDarkTheme ? "bg-slate-700 text-white" : "bg-card text-card-foreground"
+      className={`py-3 border-0 flex fixed right-0 mx-auto top-0 items-center px-10 justify-between w-full shadow-md z-50 ${
+        isDarkTheme
+          ? "bg-slate-700 text-white"
+          : "bg-card text-card-foreground "
       }`}
     >
-      <div className="flex items-center">
+      <div className="flex w-20 sm:w-[200px] items-center justify-center">
         <NavLink
           to="/"
           className={`self-center whitespace-nowrap text-sm sm:text-xl font-semibold ${
@@ -73,7 +75,7 @@ const Header: React.FC = () => {
                 : "bg-gradient-to-r from-indigo-500 to-blue-500 text-white"
             }`}
           >
-            Synergy
+            SYNERGY
           </span>{" "}
           <span className={`${isDarkTheme ? "text-white" : "text-slate-600"}`}>
             Blogs
@@ -82,34 +84,27 @@ const Header: React.FC = () => {
       </div>
 
       <div className="flex items-center gap-4">
-        {/* Search Bar (Desktop) */}
-        <div className="flex items-center gap-4">
-          {/* Search Bar (Desktop) */}
-          <div
-            ref={searchRef}
-            className={`hidden md:flex items-center w-[380px] h-10 rounded-lg border-2 ${
-              isDarkTheme ? "border-slate-600" : "border-gray-400"
-            } transition-all duration-300 ease-in-out`}
-          >
-            <CiSearch
-              className={`ml-3 ${
-                isDarkTheme ? "text-gray-400" : "text-gray-600"
-              }`}
-              size={20}
-            />
-            <input
-              type="text"
-              placeholder="Search blogs..."
-              className={`w-full h-full px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
-                isDarkTheme
-                  ? "bg-slate-700 text-white"
-                  : "bg-white text-gray-800"
-              } transition-all duration-200 ease-in-out`}
-            />
-          </div>
+        <div
+          ref={searchRef}
+          className={`hidden md:flex items-center w-[380px] h-10 rounded-lg border-2 ${
+            isDarkTheme ? "border-slate-600" : "border-gray-400"
+          } transition-all duration-300 ease-in-out`}
+        >
+          <CiSearch
+            className={`ml-3 ${
+              isDarkTheme ? "text-gray-400" : "text-gray-600"
+            }`}
+            size={20}
+          />
+          <input
+            type="text"
+            placeholder="Search blogs..."
+            className={`w-full h-full px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+              isDarkTheme ? "bg-slate-700 text-white" : "bg-white text-gray-800"
+            } transition-all duration-200 ease-in-out`}
+          />
         </div>
 
-        {/* Mobile Search Modal */}
         {isSearchOpen && (
           <div
             className={`fixed top-0 left-0 w-full h-full bg-opacity-90 ${
@@ -153,15 +148,16 @@ const Header: React.FC = () => {
           <Button
             variant="ghost"
             size="icon"
-            className="ml-4 md:hidden"
+            className={` md:hidden text-xl ${
+              !isAuthenticated ? "ml-12" : "ml-6 pl-4"
+            } `}
             onClick={() => setIsSearchOpen(true)}
           >
-            <CiSearch size={24} />
+            <CiSearch className="text-6xl" />
           </Button>
         )}
       </div>
 
-      {/* Desktop Navigation */}
       <ul
         className={`hidden md:flex items-center gap-8 font-medium ${
           isDarkTheme ? "text-white" : "text-slate-600"
@@ -171,7 +167,7 @@ const Header: React.FC = () => {
           <li key={item.id}>
             <NavLink
               to={item.route}
-              className={`hover:text-blue-500 focus:text-blue-500 focus:border-b-2 text-white focus:border-blue-500 transition-all duration-200 ${
+              className={`hover:text-blue-500 focus:text-blue-500 focus:border-b-2  focus:border-blue-500 transition-all duration-200 ${
                 isDarkTheme ? "text-white" : "text-slate-800"
               }`}
             >
@@ -184,7 +180,7 @@ const Header: React.FC = () => {
             <li>
               <Button
                 variant="secondary"
-                className={`text-red-500 ${
+                className={`text-red-500 ml-20 ${
                   isDarkTheme ? "bg-slate-600 text-white" : ""
                 }`}
                 onClick={handleLogout}
@@ -219,9 +215,9 @@ const Header: React.FC = () => {
                   Sign In
                 </Button>
               </NavLink>
-              <NavLink to="/signup">
+              <NavLink to="/sign-up">
                 <Button
-                  variant="solid"
+                  variant="default"
                   className={`text-sm font-medium px-4 py-2 rounded-lg ${
                     isDarkTheme
                       ? "bg-blue-600 text-white hover:bg-blue-700"
@@ -236,21 +232,7 @@ const Header: React.FC = () => {
         )}
       </ul>
 
-      {/* Mobile Menu */}
       <div className={`md:hidden flex items-center`}>
-        <Button
-          variant="outline"
-          size="icon"
-          className={`${
-            isDarkTheme
-              ? "bg-slate-800 text-white hover:bg-slate-600"
-              : "bg-gray-100 text-gray-800 hover:bg-gray-200"
-          }`}
-          onClick={handleMenuToggle}
-        >
-          <Menu className="h-5 w-5" />
-        </Button>
-
         {isMenuOpen && (
           <div
             className={`absolute top-16 right-0 rounded-lg p-4 w-40 shadow-md ${
@@ -309,6 +291,19 @@ const Header: React.FC = () => {
           </div>
         )}
       </div>
+      <div className="pl-8 sm:hidden">
+        {isAuthenticated && (
+          <Avatar>
+            <AvatarImage
+              src={
+                user?.avatar ||
+                "https://m.media-amazon.com/images/M/MV5BMjI3MjIxMjkwM15BMl5BanBnXkFtZTgwNzkyMTU4NzE@._V1_.jpg"
+              }
+              alt="profile"
+            />
+          </Avatar>
+        )}
+      </div>
 
       <Button
         variant="ghost"
@@ -321,6 +316,21 @@ const Header: React.FC = () => {
           <FaRegMoon size={20} />
         )}
       </Button>
+
+      <div className={` sm:hidden ${isAuthenticated ? "ml-3" : "ml-6"}`}>
+        <Button
+          variant="default"
+          size="icon"
+          className={`  ${
+            isDarkTheme
+              ? "bg-slate-800 text-white hover:bg-slate-600"
+              : "bg-gray-100 text-gray-800 hover:bg-gray-200"
+          }`}
+          onClick={handleMenuToggle}
+        >
+          <Menu className="h-4 w-4" />
+        </Button>
+      </div>
     </Card>
   );
 };
