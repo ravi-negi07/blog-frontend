@@ -1,7 +1,7 @@
 import { Suspense } from "react";
 import { ToastContainer } from "react-toastify";
 import { Routes, Route } from "react-router-dom";
-import { Login, SignUp, Header } from "../src/utills";
+import { Login, SignUp, Header, About } from "../src/utills";
 const App = () => {
   return (
     <>
@@ -13,6 +13,7 @@ const App = () => {
         <Routes>
           <Route path="/login" element={<Login />} />
           <Route path="/sign-up" element={<SignUp />} />
+          <Route path="/about" element={<About />} />
         </Routes>
       </Suspense>
 
