@@ -57,7 +57,7 @@ const SignUp = () => {
     : "bg-slate-100 text-slate-800";
 
   const inputClass = isDarkTheme
-    ? "bg-slate-700 border-slate-600 text-white"
+    ? "bg-slate-600 border-slate-600 text-slate-200"
     : "bg-slate-200 text-gray-800 placeholder-gray-500";
 
   const buttonClass = isDarkTheme
@@ -108,7 +108,7 @@ const SignUp = () => {
                   message: "Username cannot exceed 15 characters",
                 },
               })}
-              className={`p-3 rounded-md w-full border-2 ${inputClass} focus:bg-white focus:outline-none focus:border-blue-500`}
+              className={`p-3 rounded-md w-full  border-2 ${inputClass}  focus:outline-none focus:border-blue-500`}
             />
             {errors.username && (
               <p className="text-red-500 text-sm mt-1">
@@ -139,7 +139,7 @@ const SignUp = () => {
                   message: "Email cannot exceed 50 characters",
                 },
               })}
-              className={`p-3 rounded-md w-full border-2 ${inputClass} focus:bg-white focus:outline-none focus:border-blue-500`}
+              className={`p-3 rounded-md w-full border-2 ${inputClass}  focus:outline-none focus:border-blue-500`}
             />
             {errors.email && (
               <p className="text-red-500 text-sm mt-1">
@@ -166,12 +166,14 @@ const SignUp = () => {
                   message: "Password must be at least 8 characters long",
                 },
                 pattern: {
-                  value: /^(?=.*[A-Za-z])(?=.*\d).{8,}$/,
+                  value:
+                    /^(?=.*[A-Z])(?=.*\d)(?=.*[@$!%*?&])[A-Za-z\d@$!%*?&]{8,}$/,
+
                   message:
-                    "Password must include letters and numbers, and be at least 8 characters long",
+                    "Password must start and end with letters, include numbers, a special character, and be at least 8 characters long.",
                 },
               })}
-              className={`p-3 rounded-md w-full border-2 ${inputClass} focus:bg-white focus:outline-none focus:border-blue-500`}
+              className={`p-3 rounded-md w-full border-2 ${inputClass}  focus:outline-none focus:border-blue-500`}
             />
             {errors.password && (
               <p className="text-red-500 text-sm mt-1">
