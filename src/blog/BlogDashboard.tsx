@@ -1,54 +1,100 @@
-import React, { useCallback, useState } from "react";
+import React, { useState } from "react";
 import { useSelector } from "react-redux";
 import { useNavigate } from "react-router-dom";
 import { useFetchBlogsQuery } from "../api/blogApi";
 import Sidebar from "@/Layouts/Sidebar";
 import BlogList from "./BlogList";
-import { Blog } from "../api/blogApi";
+import { PieChart } from "react-minimal-pie-chart";
 
+import { Blog } from "../api/blogApi";
+import { useRejectBlogMutation, useApproveBlogMutation } from "../api/blogApi";
+import { showSuccessToast, showErrorToast } from "@/utills/toastifyUtills";
 const Dashboard: React.FC = React.memo(() => {
   const isDarktheme = useSelector((state: any) => state.theme.theme === "dark");
+  const [approveBlog] = useApproveBlogMutation();
+  const [rejectBlog] = useRejectBlogMutation();
   const { data, error, isLoading } = useFetchBlogsQuery();
   const navigate = useNavigate();
   const role = useSelector((state: any) => state.auth.role);
-
+  console.log(role);
   const blogs: Blog[] = data?.data?.blogs || [];
-  console.log("Blogs array:", blogs);
+  const approvedCount = blogs.filter(
+    (blog: { status: string }) => blog.status === "approved"
+  ).length;
+  const pendingCount = blogs.filter(
+    (blog: { status: string }) => blog.status === "pending"
+  ).length;
+  const rejectedCount = blogs.filter(
+    (blog: { status: string }) => blog.status === "rejected"
+  ).length;
 
-  console.log(blogs);
+  const chartData = [
+    { title: "Approved", value: approvedCount, color: "#4caf50" },
+    { title: "Pending", value: pendingCount, color: "#ff9800" },
+    { title: "Rejected", value: rejectedCount, color: "#f44336" },
+  ];
 
-  const [filter, setFilter] = useState<string>("all");
+  const [filter] = useState<string>("all");
   const [isSidebarOpen, setIsSidebarOpen] = useState<boolean>(false);
 
   const handleSidebarToggle = () => {
     setIsSidebarOpen((prev) => !prev);
   };
 
-  const handleFilterChange = useCallback((value: string) => {
-    setFilter(value);
-  }, []);
-
-  const uniqueStatuses = ["all", "pending", "approved", "rejected"];
-
   const filteredData =
     filter === "all" ? blogs : blogs.filter((item) => item?.status === filter);
-
-  console.log("Filtered blogs:", filteredData);
 
   const handleEdit = (_id: string | number) => {
     navigate(`/edit/${_id}`);
   };
 
-  const handleApprove = (_id: string | number) => {
-    console.log(`Approved blog with ID: ${_id}`);
+  const handleApprove = async (_id: string | number) => {
+    const idAsString = String(_id);
+
+    try {
+      if (isLoading) {
+        console.log("Approval is in progress...");
+        return;
+      }
+
+      const res = await approveBlog({ _id: idAsString });
+
+      if (res?.data) {
+        console.log("Approval successful:", res.data);
+        showSuccessToast("Blog approved successfully!");
+      } else {
+        console.error("Approval failed, no data:", res);
+        showErrorToast(
+          `Failed to approve the blog because it already approved`
+        );
+      }
+    } catch (error: unknown | string) {
+      console.error("Approval failed:", error);
+      showErrorToast(
+        `Failed to approve the blog this blog is already approved`
+      );
+    }
   };
 
   const handleExplore = (_id: string | number) => {
-    navigate(`/explore/${_id}`);
+    navigate(`/display/${_id}`);
   };
 
-  const handleReject = (_id: string | number) => {
-    console.log(`Rejected blog with ID: ${_id}`);
+  const handleReject = async (_id: string | number) => {
+    const idAsString = String(_id);
+    try {
+      const res = await rejectBlog({ _id: idAsString });
+      if (res?.data) {
+        throw new Error(`Error: ${res.data.status}`);
+      }
+
+      console.log("reject successful:", data);
+
+      showSuccessToast("Blog rejected successfully!");
+    } catch (error) {
+      console.error("Rejection failed:", error);
+      showErrorToast(`Failed to Reject the blog:`);
+    }
   };
 
   if (isLoading) {
@@ -76,48 +122,50 @@ const Dashboard: React.FC = React.memo(() => {
 
       <div className="flex flex-col flex-1 px-4 py-6 gap-6">
         <div
-          className={`p-6 shadow-md rounded-lg ${
+          className={`p-6 shadow-md flex flex-col md:flex-row items-center md:items-start rounded-lg ${
             isDarktheme ? "bg-gray-800" : "bg-white"
-          }`}
+          } ${role === "reader" ? "hidden" : "block"}`}
         >
-          <h2
-            className={`text-lg font-bold mb-4 ${
-              isDarktheme ? "text-slate-200" : "text-slate-600"
-            }`}
-          >
-            Dashboard Overview
-          </h2>
-          <div className="flex flex-wrap justify-between items-center gap-4">
-            <p
-              className={`text-sm font-medium  ${
+          <div className="w-full md:w-1/3 mb-4 md:mb-0">
+            <h2
+              className={`text-lg font-bold mb-4 ${
                 isDarktheme ? "text-slate-200" : "text-slate-600"
               }`}
             >
-              Total Blogs: {blogs.length}
-            </p>
-            <p
-              className={`text-sm font-medium ${
-                isDarktheme ? "text-slate-200" : "text-slate-600"
-              }`}
-            >
-              Filtered Blogs: {filteredData.length}
-            </p>
+              Dashboard Overview
+            </h2>
+          </div>
 
-            <select
-              value={filter}
-              onChange={(e) => handleFilterChange(e.target.value)}
-              className={`border rounded px-2 py-1 text-sm w-full sm:w-auto ${
-                isDarktheme
-                  ? "border-gray-700 bg-gray-700 text-white"
-                  : "border-gray-300 bg-white text-gray-900"
-              }`}
+          <div className="w-[200px] md:w-1/4 flex justify-center">
+            <PieChart
+              className="w-[150px] h-[150px] sm:w-[200px] sm:h-[200px]"
+              data={chartData}
+              label={({ dataIndex }) => {
+                const { title, value } = chartData[dataIndex];
+                return `${title}: ${value}`;
+              }}
+              labelStyle={{
+                fontSize: "5px",
+                fontFamily: "sans-serif",
+                fontWeight: "bold",
+                color: isDarktheme ? "white" : "black",
+              }}
+            />
+          </div>
+
+          <div className="w-full md:w-1/3 mt-4 md:mt-0">
+            {/* <h1
+              className={`${
+                isDarktheme ? "text-white" : "text-slate-700"
+              } text-center md:text-left`}
             >
-              {uniqueStatuses.map((status) => (
-                <option key={status} value={status}>
-                  {status.charAt(0).toUpperCase() + status.slice(1)}
-                </option>
-              ))}
-            </select>
+              Total: {chartData.reduce((sum, item) => sum + item.value, 0)}{" "}
+              (Status:{" "}
+              {chartData
+                .map((item) => `${item.title}: ${item.value}`)
+                .join(", ")}
+              )
+            </h1> */}
           </div>
         </div>
 
