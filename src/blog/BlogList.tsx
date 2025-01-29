@@ -8,6 +8,7 @@ interface BlogItem {
   description: string;
   url: string;
   content: string;
+  status?: string;
 }
 
 interface BlogListProps {
@@ -29,6 +30,11 @@ const BlogList: React.FC<BlogListProps> = ({
   handleExplore,
   isDarktheme,
 }) => {
+  const filteredBlogs =
+    role === "reader"
+      ? filteredDataWithIds.filter((item) => item.status === "approved")
+      : filteredDataWithIds;
+
   return (
     <div
       className={`flex flex-col mt-0 pt-4 flex-1 px-4 py-6 gap-6 ${
@@ -36,10 +42,10 @@ const BlogList: React.FC<BlogListProps> = ({
       }`}
     >
       <div className="grid grid-cols-1 sm:grid-cols-2 md:grid-cols-3 lg:grid-cols-3 gap-6">
-        {filteredDataWithIds.length === 0 ? (
+        {filteredBlogs.length === 0 ? (
           <p>No blogs found for this filter.</p>
         ) : (
-          filteredDataWithIds.map((item) => (
+          filteredBlogs.map((item) => (
             <div
               key={item._id}
               className={`${
@@ -51,7 +57,7 @@ const BlogList: React.FC<BlogListProps> = ({
               <img
                 src={
                   item.urlToImage ||
-                  "https://static.displate.com/857x1200/displate/2024-10-18/e8e198f7-3081-4005-9893-c00340c5279b.jpg"
+                  "https://encrypted-tbn0.gstatic.com/images?q=tbn:ANd9GcQMf8AbBrrC6gbouwEQ8iaDyi3nsdPRoF9EkQ&s "
                 }
                 alt={item.title}
                 className="w-full h-40 object-cover rounded-md mb-4"
