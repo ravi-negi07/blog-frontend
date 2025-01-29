@@ -29,7 +29,7 @@ const SignUp = () => {
         "https://blog-backend-2bnw.onrender.com/auth/signup",
         data
       );
-      console.log(res);
+
       if (res.status === 201) {
         showSuccessToast("Signup successful!");
         navigate("/login");

@@ -42,8 +42,6 @@ const Login = () => {
         }
       );
 
-      console.log(res);
-
       if (res.status === 200) {
         showSuccessToast("You have successfully logged in");
 

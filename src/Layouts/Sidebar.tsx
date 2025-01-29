@@ -58,9 +58,7 @@ const Sidebar: React.FC<SidebarProps> = React.memo(
 
     const itemsForReader: SidebarItem[] = [
       { title: "Dashboard", url: "/dashboard", icon: <FaCircle /> },
-      { title: "Post", url: "/post", icon: <BsFileEarmarkPostFill /> },
       { title: "Comment", url: "/comment", icon: <FaRegCommentAlt /> },
-      { title: "Status", url: "/status", icon: <IoMdStats /> },
     ];
 
     const handleScroll = () => {
