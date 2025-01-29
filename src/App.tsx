@@ -10,7 +10,6 @@ import {
   Home,
   Dashboard,
   BlogCreator,
-  BlogEditor,
   BlogDisplay,
   BlogStatus,
 } from "../src/utills";
@@ -36,7 +35,6 @@ const App = () => {
               </SidebarProvider>
             }
           />
-          <Route path="/edit/:_id" element={<BlogEditor />} />
           <Route path="/create-post" element={<BlogCreator />} />
           <Route path="/display/:_id" element={<BlogDisplay />} />
           <Route path="/status" element={<BlogStatus />} />
