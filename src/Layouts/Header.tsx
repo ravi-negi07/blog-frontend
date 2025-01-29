@@ -55,7 +55,7 @@ const Header: React.FC = () => {
 
   return (
     <Card
-      className={`py-3 border-0 flex fixed right-0 mx-auto top-0 items-center px-10 justify-between w-full shadow-md z-50 ${
+      className={`py-3 rounded-none border-0 flex fixed right-0 mx-auto top-0 items-center px-10 justify-between w-full shadow-md z-50 ${
         isDarkTheme
           ? "bg-slate-700 text-white"
           : "bg-card text-card-foreground "
@@ -86,8 +86,10 @@ const Header: React.FC = () => {
       <div className="flex items-center gap-4">
         <div
           ref={searchRef}
-          className={`hidden md:flex items-center w-[380px] h-10 rounded-lg border-2 ${
-            isDarkTheme ? "border-slate-600" : "border-gray-400"
+          className={`hidden md:flex items-center w-[380px] hover:border-blue-500 h-10 rounded-lg border-2 ${
+            isDarkTheme
+              ? "border-slate-600"
+              : "border-gray-400 hover:border-blue-600 border-2"
           } transition-all duration-300 ease-in-out`}
         >
           <CiSearch
@@ -99,9 +101,9 @@ const Header: React.FC = () => {
           <input
             type="text"
             placeholder="Search blogs..."
-            className={`w-full h-full px-4 py-2 rounded-lg focus:outline-none focus:ring-2 focus:ring-blue-500 ${
+            className={`w-full h-full px-4 py-2 rounded-lg focus:outline-none  ${
               isDarkTheme ? "bg-slate-700 text-white" : "bg-white text-gray-800"
-            } transition-all duration-200 ease-in-out`}
+            } `}
           />
         </div>
 

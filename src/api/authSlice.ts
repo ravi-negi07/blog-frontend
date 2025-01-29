@@ -3,6 +3,7 @@ import { jwtDecode } from "jwt-decode";
 
 interface DecodedToken {
   role?: string;
+  email?: string | number;
 }
 
 interface AuthState {
@@ -10,12 +11,14 @@ interface AuthState {
   user: any;
   token: string | null;
   role: string;
+  email: string | number;
 }
 
 const initialState: AuthState = {
   isAuthenticated: false,
   user: null,
   token: null,
+  email: "",
   role: "reader",
 };
 
@@ -30,6 +33,7 @@ const authSlice = createSlice({
       localStorage.setItem("tokem", state.token);
       const decodedToken: DecodedToken = jwtDecode(action.payload.token);
       state.role = decodedToken?.role || "reader";
+      state.email = decodedToken?.email || "ravi";
       localStorage.setItem("authToken", action.payload.token);
     },
     logout: (state) => {
