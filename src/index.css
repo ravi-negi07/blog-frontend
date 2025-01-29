@@ -88,3 +88,47 @@
 * {
   box-sizing: border-box;
 }
+
+
+.ql-toolbar.ql-snow .ql-picker-label {
+  color: #2b2b2b !important;
+  font-weight: 400;
+}
+
+.dark .ql-toolbar.ql-snow .ql-picker-label {
+  color: white !important;
+}
+
+.ql-editor.ql-blank::before {
+  font-size: 14px;
+}
+
+.dark .ql-editor.ql-blank::before {
+  color: white
+}
+
+.ql-snow.ql-toolbar button svg {
+  color: #2b2b2b !important;
+  font-weight: 400;
+}
+
+.dark .ql-snow.ql-toolbar button svg {
+  background-color: white !important;
+  width: full;
+  height: full;
+}
+
+.dark .ql-snow .ql-picker:not(.ql-color-picker):not(.ql-icon-picker) svg {
+  background-color: white;
+}
+
+
+input::placeholder {
+  color: #787676;
+
+}
+
+input[data-theme="dark"]::placeholder {
+  color: #fff;
+
+}
