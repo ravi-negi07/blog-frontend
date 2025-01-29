@@ -2,7 +2,19 @@ import { Suspense } from "react";
 import { ToastContainer } from "react-toastify";
 import { Routes, Route } from "react-router-dom";
 import { SidebarProvider } from "./components/ui/sidebar";
-import { Login, SignUp, Header, About, Home, Dashboard } from "../src/utills";
+import {
+  Login,
+  SignUp,
+  Header,
+  About,
+  Home,
+  Dashboard,
+  BlogCreator,
+  BlogEditor,
+  BlogDisplay,
+  BlogStatus,
+} from "../src/utills";
+
 const App = () => {
   return (
     <>
@@ -24,6 +36,10 @@ const App = () => {
               </SidebarProvider>
             }
           />
+          <Route path="/edit/:_id" element={<BlogEditor />} />
+          <Route path="/create-post" element={<BlogCreator />} />
+          <Route path="/display/:_id" element={<BlogDisplay />} />
+          <Route path="/status" element={<BlogStatus />} />
         </Routes>
       </Suspense>
 
